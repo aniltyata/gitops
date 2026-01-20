@@ -12,11 +12,11 @@ spec:
           - path: clusters/prod/tenants/*/*
   template:
     metadata:
-      name: "superset-{{path[2]}}-{{path[3]}}"
+      name: "superset-{{path[3]}}-{{path[4]}}"
       labels:
         app: superset
-        tenant: "{{path[2]}}"
-        instance: "{{path[3]}}"
+        tenant: "{{path[3]}}"
+        instance: "{{path[4]}}"
     spec:
       project: default
       source:
@@ -25,7 +25,7 @@ spec:
         path: "{{path}}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: "tenant-{{path[2]}}-{{path[3]}}"
+        namespace: "tenant-{{path[3]}}-{{path[4]}}"
       syncPolicy:
         automated:
           prune: true

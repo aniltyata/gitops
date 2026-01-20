@@ -6,7 +6,7 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: https://github.com/YOUR_ORG/YOUR_GITOPS_REPO.git
+        repoURL: https://github.com/aniltyata/gitops.git
         revision: main
         directories:
           - path: clusters/prod/tenants/*/*

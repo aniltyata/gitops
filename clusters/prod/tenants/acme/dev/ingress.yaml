@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: hello
+  name: superset
 spec:
   ingressClassName: nginx
   rules:
-    - host: dev.acme.local
+    - host: superset.acme.dev.local
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: hello
+                name: superset
                 port:
-                  number: 80
+                  number: 8088

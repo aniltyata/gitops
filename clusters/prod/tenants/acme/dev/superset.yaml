@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: superset
+spec:
+  selector:
+    app: superset
+  ports:
+    - name: http
+      port: 8088
+      targetPort: 8088
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: superset
+  template:
+    metadata:
+      labels:
+        app: superset
+    spec:
+      initContainers:
+        - name: wait-postgres
+          image: busybox:1.36
+          command: ["sh","-c"]
+          args:
+            - |
+              until nc -z postgres 5432; do echo waiting postgres; sleep 2; done
+        - name: wait-redis
+          image: busybox:1.36
+          command: ["sh","-c"]
+          args:
+            - |
+              until nc -z redis 6379; do echo waiting redis; sleep 2; done
+      containers:
+        - name: superset
+          image: apache/superset:4.0.2
+          ports:
+            - containerPort: 8088
+          env:
+            - name: SUPERSET_CONFIG_PATH
+              value: /app/pythonpath/superset_config.py
+            - name: SUPERSET_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: superset-secrets
+                  key: SUPERSET_SECRET_KEY
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: superset-secrets
+                  key: POSTGRES_PASSWORD
+            - name: SQLALCHEMY_DATABASE_URI
+              value: postgresql+psycopg2://superset:$(POSTGRES_PASSWORD)@postgres:5432/superset
+            - name: REDIS_HOST
+              value: redis
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_DB
+              value: "0"
+          volumeMounts:
+            - name: superset-config
+              mountPath: /app/pythonpath/superset_config.py
+              subPath: superset_config.py
+      volumes:
+        - name: superset-config
+          configMap:
+            name: superset-config

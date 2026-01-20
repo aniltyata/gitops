@@ -4,6 +4,10 @@ kind: Kustomization
 namespace: tenant-acme-dev
 
 resources:
-  - deployment.yaml
-  - service.yaml
+  - secret.yaml
+  - postgres.yaml
+  - redis.yaml
+  - superset-config.yaml
+  - superset.yaml
   - ingress.yaml
+  - bootstrap-job.yaml

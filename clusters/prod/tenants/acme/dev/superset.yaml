@@ -24,6 +24,7 @@ spec:
       labels:
         app: superset
     spec:
+      enableServiceLinks: false
       initContainers:
         - name: wait-postgres
           image: busybox:1.36

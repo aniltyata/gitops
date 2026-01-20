@@ -5,6 +5,7 @@ metadata:
 spec:
   template:
     spec:
+      enableServiceLinks: false
       restartPolicy: OnFailure
       initContainers:
         - name: wait-postgres

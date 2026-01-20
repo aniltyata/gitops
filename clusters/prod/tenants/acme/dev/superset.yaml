@@ -57,11 +57,11 @@ spec:
                   key: POSTGRES_PASSWORD
             - name: SQLALCHEMY_DATABASE_URI
               value: postgresql+psycopg2://superset:$(POSTGRES_PASSWORD)@postgres:5432/superset
-            - name: REDIS_HOST
+            - name: SUPERSET_REDIS_HOST
               value: redis
-            - name: REDIS_PORT
+            - name: SUPERSET_REDIS_PORT
               value: "6379"
-            - name: REDIS_DB
+            - name: SUPERSET_REDIS_DB
               value: "0"
           volumeMounts:
             - name: superset-config

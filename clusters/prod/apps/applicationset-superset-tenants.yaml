@@ -20,7 +20,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/YOUR_ORG/YOUR_GITOPS_REPO.git
+        repoURL: https://github.com/aniltyata/gitops.git
         targetRevision: main
         path: "{{path}}"
       destination:
